@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<center><div class=" button_container btn-group" role="group" aria-label="Basic example">
+  <a href="{% url 'home' %}" class="btn btn-primary">ALL TASK's</a>
+  <a href="{% url 'task_done' %}" type="button" class="btn btn-primary" style='margin-left: 3px; margin-right: 3px;'>TASK's DONE</a>
+  <a href="{% url 'task_not_done' %}" type="button" class="btn btn-primary">TASK's TO DO</a>
+</div></center>
+<div class="container-xxl ">
+  <!-- Content here -->
+	
+	<div class="container over_all text-center">
+	<div class="row row-cols-4 parent">
+
+
+	    <!-- <div class="col sub-div"><div class="card" style="width: 18rem;">
+		  <div class="card-body">
+			    <h5 class="card-title">Card title</h5>
+			    <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+			    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+			    <a href="#" class="card-link">Card link</a>
+			    <a href="#" class="card-link">Another link</a>
+			  </div>
+			</div>
+		</div> -->
+		{% for record in records%}
+		{% if record.status == "DONE" %}
+		 <div class="col sub-div"><div class="card" style="width: 18rem;">
+				<div class="card-body">
+				    <h5 class="card-title">{{record.id}}</h5>
+				    {% if record.status == "TODO" %}
+					    <h6 class="card-subtitle mb-2 text-body-secondary">TODO <i class="bi bi-bag-x-fill" style='color: red;'></i></h6>
+					    <p class="card-text"><i>{{record.task}}</i></p>
+					    <a href="{% url 'done' record.id %}" class="btn btn-primary">Complete</a>
+					    <a href="{% url 'edit' record.id %}" class="btn" style='background-color: lightblue;'>Edit</a>
+					   {% else %}
+					   <h6 class="card-subtitle mb-2 text-body-secondary">DONE <i class="bi bi-bag-check-fill" style='color : green ;'></i></h6>
+					    <p class="card-text " style="text-decoration: line-through;"> <i>{{record.task}}</i></p>
+					    <a href="{% url 'undo' record.id %}" class="btn btn-primary" style="background-color: #f7af43;">Undo</a>
+					   {% endif %}
+				    <a href="{% url 'remove' record.id %}" class="btn btn-primary" style='background-color: #f74343;'>Remove</a>
+
+				  </div>
+				</div>
+			</div>
+		{% endif %}
+		{% endfor %}
+	</div>
+
+	</div>
+</div>
+
+{% endblock %}
